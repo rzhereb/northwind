@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Date Validator</title>
+</head>
+<body>
+<h2>Current text field has format date with mask: mm-dd-yyyy. Moreover, the min year is 1800 and the max 2050		</h2>
+<form th:action="@{/date}" th:method="post" th:object="${dateObject}">
+  <input type="text" th:name="date"/>
+  <input type="submit"/>
+</form>
+
+<div th:if="${errors != null}">
+  <h3>Errors</h3>
+  <ol>
+      <li th:each="item : *{errors}" th:text="${item}">Item description here...</li>
+  </ol>
+</div>
+
+<form th:action="@{/date}" th:method="delete">
+  <button type="submit">
+    Clean errors
+  </button>
+</form>
+
+</body>
+</html>
