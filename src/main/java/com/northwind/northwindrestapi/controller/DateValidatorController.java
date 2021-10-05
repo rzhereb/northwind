@@ -124,6 +124,7 @@ public class DateValidatorController {
     }
     if (!checkYearRange(dateParts[2])) {
       errors.add("Invalid year - digits");
+      isErrorFound = true;
     }
 
     if (isErrorFound) {
@@ -223,6 +224,9 @@ public class DateValidatorController {
   }
 
   private boolean checkMonthRange(String month) {
+    if (month.length() != 2) {
+      return false;
+    }
     try {
       final int i = Integer.parseInt(month);
       return i > 0 && i < 13;
@@ -233,6 +237,9 @@ public class DateValidatorController {
 
 
   private boolean checkDayRange(String day) {
+    if (day.length() != 2) {
+      return false;
+    }
     try {
       final int i = Integer.parseInt(day);
       return i > 0 && i < 32;
