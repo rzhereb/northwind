@@ -1,15 +1,5 @@
 package com.northwind.northwindrestapi.controller;
 
-import com.google.common.base.Strings;
-import com.northwind.northwindrestapi.dto.Separator;
-import lombok.Data;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
@@ -17,7 +7,20 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+
 import javax.servlet.http.HttpSession;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.google.common.base.Strings;
+import com.northwind.northwindrestapi.dto.Separator;
+
+import lombok.Data;
 
 @Controller
 @RequestMapping(value = "/date")
@@ -114,16 +117,13 @@ public class DateValidatorController {
       }
     }
 
-    if (!checkMonthRange(dateParts[0])) {
-      errors.add("Invalid month - digits");
+    if (!checkMonthRange(dateParts[0], errors)) {
       isErrorFound = true;
     }
-    if (!checkDayRange(dateParts[1])) {
-      errors.add("Invalid day - digits");
+    if (!checkDayRange(dateParts[1], dateParts[0], errors)) {
       isErrorFound = true;
     }
-    if (!checkYearRange(dateParts[2])) {
-      errors.add("Invalid year - digits");
+    if (!checkYearRange(dateParts[2], errors)) {
       isErrorFound = true;
     }
 
@@ -223,35 +223,59 @@ public class DateValidatorController {
     return false;
   }
 
-  private boolean checkMonthRange(String month) {
+  private boolean checkMonthRange(String month, Set<String> errors) {
     if (month.length() != 2) {
+      errors.add("Invalid month - digits");
       return false;
     }
     try {
       final int i = Integer.parseInt(month);
-      return i > 0 && i < 13;
+      if (i > 12) {
+        errors.add("Invalid month - Date is out of positive range");
+        return false;
+      }
+      return true;
     } catch (NumberFormatException e) {
       return true;
     }
   }
 
-
-  private boolean checkDayRange(String day) {
+  private boolean checkDayRange(String day, String month, Set<String> errors) {
     if (day.length() != 2) {
       return false;
     }
     try {
-      final int i = Integer.parseInt(day);
-      return i > 0 && i < 32;
+      final int dayInt = Integer.parseInt(day);
+      if (dayInt == 0) {
+        errors.add("Invalid day - digits");
+        return false;
+      }
+      final int monthInt = Integer.parseInt(month);
+      if (monthInt > 0 && monthInt < 13) {
+        Month monthDate = Month.of(monthInt);
+        if (dayInt > monthDate.maxLength()) {
+          errors.add(
+              String.format("Invalid day - Max day for month %s is %s", monthDate.name(), monthDate.maxLength()));
+          return false;
+        }
+      }
+      return true;
     } catch (NumberFormatException e) {
       return true;
     }
   }
 
-  private boolean checkYearRange(String year) {
+  private boolean checkYearRange(String year, Set<String> errors) {
     try {
       final int i = Integer.parseInt(year);
-      return i >= 1800 && i <= 2050;
+      if (i < 1000) {
+        errors.add("Invalid year - digits");
+        return false;
+      } else if (i < 1800 || i > 2050) {
+        errors.add("Invalid year - Date is out of positive range");
+        return false;
+      }
+      return true;
     } catch (NumberFormatException e) {
       return true;
     }

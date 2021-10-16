@@ -12,7 +12,7 @@
 </form>
 
 <div th:if="${errors != null}">
-  <h3>Errors</h3>
+  <h3>Cases</h3>
   <ol>
       <li th:each="item : *{errors}" th:text="${item}">Item description here...</li>
   </ol>
@@ -20,7 +20,7 @@
 
 <form th:action="@{/date}" th:method="delete">
   <button type="submit">
-    Clean errors
+    Clean cases
   </button>
 </form>
 
