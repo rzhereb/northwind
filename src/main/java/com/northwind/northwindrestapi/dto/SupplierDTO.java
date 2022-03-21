@@ -1,13 +1,15 @@
 package com.northwind.northwindrestapi.dto;
 
 import com.northwind.northwindrestapi.entity.Supplier;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class SupplierDTO implements PatchDtoToEntityMapper<Supplier>, CreateDtoToEntityMapper<Supplier> {
+public class SupplierDTO implements PatchDtoToEntityMapper<Supplier> {
 
+  @ApiModelProperty(required = true)
   private String companyName;
   private String contactName;
   private String contactTitle;
@@ -51,20 +53,4 @@ public class SupplierDTO implements PatchDtoToEntityMapper<Supplier>, CreateDtoT
     }
   }
 
-  @Override
-  public Supplier mapFromCreate(Supplier entity) {
-    if (entity == null) {
-      entity = new Supplier();
-    }
-    entity.setCompanyName(this.getCompanyName());
-    entity.setContactName(this.getContactName());
-    entity.setContactTitle(this.getContactTitle());
-    entity.setAddress(this.getAddress());
-    entity.setCity(this.getCity());
-    entity.setRegion(this.getPostalCode());
-    entity.setCountry(this.getCountry());
-    entity.setPhone(this.getPhone());
-    entity.setFax(this.getFax());
-    return entity;
-  }
 }

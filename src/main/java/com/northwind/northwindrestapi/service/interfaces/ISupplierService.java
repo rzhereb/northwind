@@ -11,9 +11,9 @@ public interface ISupplierService {
 
   Supplier getSupplier(int id);
 
-  Supplier create(SupplierDTO Supplier);
+  Supplier create(Supplier Supplier);
 
-  Supplier update(int id, SupplierDTO Supplier);
+  Supplier update(int id, Supplier Supplier);
 
   void delete(int id);
 

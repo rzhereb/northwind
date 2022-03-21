@@ -1,5 +1,6 @@
 package com.northwind.northwindrestapi.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -21,7 +22,8 @@ public class Supplier {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "SupplierID")
   private int id;
-  @Column(name = "CompanyName")
+  @Column(name = "CompanyName", nullable = false)
+  @ApiModelProperty(required = true)
   private String companyName;
   @Column(name = "ContactName")
   private String contactName;
