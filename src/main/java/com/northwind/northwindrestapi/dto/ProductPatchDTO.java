@@ -1,6 +1,7 @@
 package com.northwind.northwindrestapi.dto;
 
 import com.northwind.northwindrestapi.entity.Product;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,6 +16,8 @@ public class ProductPatchDTO implements PatchDtoToEntityMapper<Product> {
   private int unitsOnOrder;
   private int reorderLevel;
   private int category;
+  @ApiModelProperty(required = true)
+  private boolean discontinued;
 
   @Override
   public void mapFromPatch(Product entity) {

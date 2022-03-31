@@ -1,11 +1,12 @@
 package com.northwind.northwindrestapi.service;
 
 import com.northwind.northwindrestapi.dao.OrderRepository;
-import com.northwind.northwindrestapi.dto.OrderCreateDTO;
+import com.northwind.northwindrestapi.dto.OrderDTO;
 import com.northwind.northwindrestapi.dto.OrderPatchDTO;
 import com.northwind.northwindrestapi.entity.Customer;
 import com.northwind.northwindrestapi.entity.Employee;
 import com.northwind.northwindrestapi.entity.Order;
+import com.northwind.northwindrestapi.mapper.OrderMapper;
 import com.northwind.northwindrestapi.service.interfaces.ICustomerService;
 import com.northwind.northwindrestapi.service.interfaces.IEmployeeService;
 import com.northwind.northwindrestapi.service.interfaces.IOrderService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -23,19 +25,24 @@ public class OrderService implements IOrderService {
   private OrderRepository orderRepository;
   private IEmployeeService employeeService;
   private ICustomerService customerService;
+  private OrderMapper orderMapper;
 
   @Override
-  public List<Order> getAllOrders() {
-    return orderRepository.findAll();
+  public List<OrderDTO> getAllOrders() {
+    return orderRepository.findAll()
+            .stream()
+            .map(orderMapper::entityToDto)
+            .collect(Collectors.toList());
   }
 
   @Override
-  public Order getOrder(int id) {
-    return orderRepository.findById(id).orElse(null);
+  public OrderDTO getOrder(int id) {
+    Order order = orderRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    return orderMapper.entityToDto(order);
   }
 
   @Override
-  public Order create(OrderCreateDTO order) {
+  public Order create(OrderDTO order) {
     final Employee employee = employeeService.getEmployee(order.getEmployeeId());
     final Customer customer = customerService.getCustomer(order.getCustomerId());
     final Order orderToSave = order.getOrder();
@@ -49,12 +56,16 @@ public class OrderService implements IOrderService {
     if (orderRepository.existsById(id)) {
       order.setId(id);
       return orderRepository.saveAndFlush(order);
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
     }
-    return null;
   }
 
   @Override
   public void delete(int id) {
+    if (!orderRepository.existsById(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+    }
     orderRepository.deleteById(id);
   }
 

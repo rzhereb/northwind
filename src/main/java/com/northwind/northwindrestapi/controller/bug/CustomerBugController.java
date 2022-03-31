@@ -1,6 +1,7 @@
 package com.northwind.northwindrestapi.controller.bug;
 
 import com.northwind.northwindrestapi.controller.bug.dto.CustomerCutDto;
+import com.northwind.northwindrestapi.dto.CustomerCreateDTO;
 import com.northwind.northwindrestapi.dto.CustomerPatchDTO;
 import com.northwind.northwindrestapi.entity.Customer;
 import com.northwind.northwindrestapi.service.interfaces.ICustomerService;
@@ -41,12 +42,12 @@ public class CustomerBugController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.NON_AUTHORITATIVE_INFORMATION)
-  public Customer saveCustomer(@RequestBody Customer customer) {
+  public Customer saveCustomer(@RequestBody CustomerCreateDTO customer) {
     return customerService.create(customer);
   }
 
   @PutMapping(value = "/{id}")
-  public Customer updateCustomer(@PathVariable String id, @RequestBody Customer customer) {
+  public Customer updateCustomer(@PathVariable String id, @RequestBody CustomerCreateDTO customer) {
     return customerService.update(id, customer);
   }
 

@@ -1,6 +1,6 @@
 package com.northwind.northwindrestapi.controller;
 
-import com.northwind.northwindrestapi.dto.OrderCreateDTO;
+import com.northwind.northwindrestapi.dto.OrderDTO;
 import com.northwind.northwindrestapi.dto.OrderPatchDTO;
 import com.northwind.northwindrestapi.entity.Order;
 import com.northwind.northwindrestapi.service.interfaces.IOrderService;
@@ -27,18 +27,18 @@ public class OrderController {
   private IOrderService orderService;
 
   @GetMapping
-  public List<Order> getAllOrders() {
+  public List<OrderDTO> getAllOrders() {
     return orderService.getAllOrders();
   }
 
   @GetMapping(value = "/{id}")
-  public Order getOrder(@PathVariable int id) {
+  public OrderDTO getOrder(@PathVariable int id) {
     return orderService.getOrder(id);
   }
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Order saveOrder(@RequestBody OrderCreateDTO order) {
+  public Order saveOrder(@RequestBody OrderDTO order) {
     return orderService.create(order);
   }
 

@@ -1,5 +1,6 @@
 package com.northwind.northwindrestapi.service.interfaces;
 
+import com.northwind.northwindrestapi.dto.CustomerCreateDTO;
 import com.northwind.northwindrestapi.dto.CustomerPatchDTO;
 import com.northwind.northwindrestapi.entity.Customer;
 
@@ -11,9 +12,9 @@ public interface ICustomerService {
 
   Customer getCustomer(String id);
 
-  Customer create(Customer customer);
+  Customer create(CustomerCreateDTO customer);
 
-  Customer update(String id, Customer customer);
+  Customer update(String id, CustomerCreateDTO customer);
 
   void delete(String id);
 

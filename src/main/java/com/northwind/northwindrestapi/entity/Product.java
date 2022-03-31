@@ -1,6 +1,7 @@
 package com.northwind.northwindrestapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +26,7 @@ public class Product {
   private int id;
 
   @Column(name = "ProductName")
+  @ApiModelProperty(required = true)
   private String name;
 
   @Column(name = "QuantityPerUnit")
@@ -41,6 +43,10 @@ public class Product {
 
   @Column(name = "ReorderLevel")
   private int reorderLevel;
+
+  @Column(name = "Discontinued")
+  @ApiModelProperty(required = true)
+  private boolean discontinued;
 
   @ManyToOne(targetEntity = Category.class)
   @JoinColumn(name = "CategoryID")

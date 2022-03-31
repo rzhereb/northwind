@@ -1,6 +1,6 @@
 package com.northwind.northwindrestapi.service.interfaces;
 
-import com.northwind.northwindrestapi.dto.OrderCreateDTO;
+import com.northwind.northwindrestapi.dto.OrderDTO;
 import com.northwind.northwindrestapi.dto.OrderPatchDTO;
 import com.northwind.northwindrestapi.entity.Order;
 
@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface IOrderService {
 
-  List<Order> getAllOrders();
+  List<OrderDTO> getAllOrders();
 
-  Order getOrder(int id);
+  OrderDTO getOrder(int id);
 
-  Order create(OrderCreateDTO order);
+  Order create(OrderDTO order);
 
   Order update(int id, Order order);
 

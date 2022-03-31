@@ -1,5 +1,6 @@
 package com.northwind.northwindrestapi.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,6 +24,7 @@ public class Customer {
   private String id;
 
   @Column(name = "CompanyName", nullable = false)
+  @ApiModelProperty(required = true)
   private String companyName;
 
   @Column(name = "ContactName")
