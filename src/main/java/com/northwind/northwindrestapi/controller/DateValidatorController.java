@@ -229,8 +229,8 @@ public class DateValidatorController {
       return false;
     }
     try {
-      final int i = Integer.parseInt(month);
-      if (i > 12) {
+      final int monthInt = Integer.parseInt(month);
+      if (monthInt == 0 || monthInt > 12) {
         errors.add("Invalid month - Date is out of positive range");
         return false;
       }
@@ -247,7 +247,7 @@ public class DateValidatorController {
     try {
       final int dayInt = Integer.parseInt(day);
       if (dayInt == 0) {
-        errors.add("Invalid day - digits");
+        errors.add("Invalid day - Date is out of positive range");
         return false;
       }
       final int monthInt = Integer.parseInt(month);
