@@ -29,17 +29,21 @@ public class SupplierService implements ISupplierService {
   }
 
   @Override
-  public Supplier create(Supplier supplier) {
-    return supplierRepository.saveAndFlush(supplier);
+  public Supplier create(SupplierDTO supplier) {
+    Supplier supplierEntity = new Supplier();
+    supplier.mapFromPatch(supplierEntity);
+    return supplierRepository.saveAndFlush(supplierEntity);
   }
 
   @Override
-  public Supplier update(int id, Supplier supplier) {
+  public Supplier update(int id, SupplierDTO supplier) {
     if (!supplierRepository.existsById(id)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("No Supplier with id %s found", id));
     }
-    supplier.setId(id);
-    return supplierRepository.saveAndFlush(supplier);
+    Supplier supplierEntity = new Supplier();
+    supplier.mapFromPatch(supplierEntity);
+    supplierEntity.setId(id);
+    return supplierRepository.saveAndFlush(supplierEntity);
   }
 
   @Override

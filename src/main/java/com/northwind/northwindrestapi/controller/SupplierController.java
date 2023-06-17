@@ -37,12 +37,12 @@ public class SupplierController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public Supplier saveSupplier(@RequestBody Supplier supplier) {
+  public Supplier saveSupplier(@RequestBody SupplierDTO supplier) {
     return supplierService.create(supplier);
   }
 
   @PutMapping(value = "/{id}")
-  public Supplier updateSupplier(@PathVariable int id, @RequestBody Supplier supplier) {
+  public Supplier updateSupplier(@PathVariable int id, @RequestBody SupplierDTO supplier) {
     return supplierService.update(id, supplier);
   }
 
