@@ -40,7 +40,7 @@ public class SupplierDTO implements PatchDtoToEntityMapper<Supplier> {
       entity.setCity(this.getCity());
     }
     if (this.getRegion() != null) {
-      entity.setRegion(this.getPostalCode());
+      entity.setRegion(this.getRegion());
     }
     if (this.getCountry() != null) {
       entity.setCountry(this.getCountry());
@@ -50,6 +50,12 @@ public class SupplierDTO implements PatchDtoToEntityMapper<Supplier> {
     }
     if (this.getFax() != null) {
       entity.setFax(this.getFax());
+    }
+    if (this.getHomePage() != null) {
+      entity.setHomePage(this.getHomePage());
+    }
+    if (this.getPostalCode() != null) {
+      entity.setPostalCode(this.getPostalCode());
     }
   }
 
